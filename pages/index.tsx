@@ -1,19 +1,12 @@
 import MobileDetect from "mobile-detect";
 import type { NextPage } from "next";
-import { NextRequest, NextResponse } from "next/server";
 import { Loading } from "../components/Loading";
 
 const index: NextPage = () => {
   return <Loading opacity={1} />;
 };
 
-export const getServerSideProps = ({
-  res,
-  req,
-}: {
-  res: any;
-  req: NextRequest;
-}) => {
+export const getServerSideProps = ({ res, req }: { res: any; req: any }) => {
   const md = new MobileDetect(req.headers.get(`user-agent`) as string);
   const isBot = md.is(`Bot`);
   if (isBot) {

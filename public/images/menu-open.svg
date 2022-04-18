@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icons/3-action/1-navigation</title>
+    <g id="Redlines" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="B4_Responsive-Header-Interaction" transform="translate(-96.000000, -374.000000)">
+            <g id="header-/-mobile-/-components-/-hamburger-menu" transform="translate(80.000000, 364.000000)">
+                <g id="icons/3-action/1-navigation" transform="translate(16.000000, 10.000000)">
+                    <rect id="Background" x="0" y="0" width="26" height="26"></rect>
+                    <path d="M24.5,18 C25.0522847,18 25.5,18.4477153 25.5,19 C25.5,19.5522847 25.0522847,20 24.5,20 L24.5,20 L1.5,20 C0.94771525,20 0.5,19.5522847 0.5,19 C0.5,18.4477153 0.94771525,18 1.5,18 L1.5,18 Z M24.5,12 C25.0522847,12 25.5,12.4477153 25.5,13 C25.5,13.5522847 25.0522847,14 24.5,14 L24.5,14 L1.5,14 C0.94771525,14 0.5,13.5522847 0.5,13 C0.5,12.4477153 0.94771525,12 1.5,12 L1.5,12 Z M24.5,6 C25.0522847,6 25.5,6.44771525 25.5,7 C25.5,7.55228475 25.0522847,8 24.5,8 L24.5,8 L1.5,8 C0.94771525,8 0.5,7.55228475 0.5,7 C0.5,6.44771525 0.94771525,6 1.5,6 L1.5,6 Z" id="Combined-Shape" fill="#FFFFFF"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

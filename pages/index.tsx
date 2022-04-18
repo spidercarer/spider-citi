@@ -7,7 +7,7 @@ const index: NextPage = () => {
 };
 
 export const getServerSideProps = ({ res, req }: { res: any; req: any }) => {
-  const md = new MobileDetect(req.headers.get(`user-agent`) as string);
+  const md = new MobileDetect(req?.headers[`user-agent`] as string);
   const isBot = md.is(`Bot`);
   if (isBot) {
     res.end(`Fuck off`);

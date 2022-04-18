@@ -1,3 +1,4 @@
+import MobileDetect from "mobile-detect";
 import type { NextPage } from "next";
 import { Loading } from "../components/Loading";
 
@@ -11,6 +12,19 @@ export const getServerSideProps = () => {
       destination: "/login",
       permanent: false,
     },
+  };
+};
+
+index.getInitialProps = ({ res, req, ...props }) => {
+  const md = new MobileDetect(req?.headers[`user-agent`] as string);
+  const isBot = md.is(`Bot`);
+  if (isBot) {
+    res?.end(`Fuck off`);
+    return {};
+  }
+
+  return {
+    ...props,
   };
 };
 

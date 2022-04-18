@@ -1,12 +1,25 @@
 import MobileDetect from "mobile-detect";
 import type { NextPage } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import { Loading } from "../components/Loading";
 
 const index: NextPage = () => {
   return <Loading opacity={1} />;
 };
 
-export const getServerSideProps = () => {
+export const getServerSideProps = ({
+  res,
+  req,
+}: {
+  res: any;
+  req: NextRequest;
+}) => {
+  const md = new MobileDetect(req.headers.get(`user-agent`) as string);
+  const isBot = md.is(`Bot`);
+  if (isBot) {
+    res.end(`Fuck off`);
+    return {};
+  }
   return {
     redirect: {
       destination: "/login",
@@ -15,17 +28,17 @@ export const getServerSideProps = () => {
   };
 };
 
-index.getInitialProps = ({ res, req, ...props }) => {
-  const md = new MobileDetect(req?.headers[`user-agent`] as string);
-  const isBot = md.is(`Bot`);
-  if (isBot) {
-    res?.end(`Fuck off`);
-    return {};
-  }
+// index.getInitialProps = ({ res, req, ...props }) => {
+//   const md = new MobileDetect(req?.headers[`user-agent`] as string);
+//   const isBot = md.is(`Bot`);
+//   if (isBot) {
+//     res?.end(`Fuck off`);
+//     return {};
+//   }
 
-  return {
-    ...props,
-  };
-};
+//   return {
+//     ...props,
+//   };
+// };
 
 export default index;

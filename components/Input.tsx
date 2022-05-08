@@ -16,8 +16,8 @@ interface InputProps extends CUIInputProps {
   error?: string;
   register?: UseFormRegister<FieldValues>;
   registerOptions?: any;
-  curValue?: string;
   mask?: string;
+  curValue?: string;
 }
 
 export const Input: React.FC<InputProps> = ({

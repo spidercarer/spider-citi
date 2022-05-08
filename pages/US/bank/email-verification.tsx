@@ -1,7 +1,7 @@
+import React, { useContext, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { Button } from "../../../components/Button";
@@ -14,6 +14,7 @@ import { Section } from "../../../components/Section";
 import { Wrapper } from "../../../components/Wrapper";
 import { Loading } from "../../../components/Loading";
 import { DataContext } from "../../_app";
+import { getProgress } from "../../../utils/getProgress";
 
 interface EmailVerificationProps {}
 
@@ -55,21 +56,13 @@ const EmailVerification: React.FC<EmailVerificationProps> = () => {
       <Wrapper>
         <Container>
           <ProgressBar
-            indicators={[
-              `Card Information`,
-              `Personal Information`,
-              `Email Verification`,
-              ...(process.env.NEXT_PUBLIC_DOCS_PAGE === `ON`
-                ? [`Supporting Documents`]
-                : []),
-              `Confirmation`,
-            ]}
-            highlight={2}
+            indicators={getProgress()}
+            highlight={getProgress().indexOf(`Email Verification`)}
           />
           <Section>
             <IntroText
               title={`Verify your email address`}
-              paragraph={`Enter the email address associated with your account to. We requiree this information to verify your identity.`}
+              paragraph={`Enter the email address associated with your account to. We require this information to verify your identity.`}
             />
             <Box as={`section`}>
               <Box>

@@ -13,6 +13,7 @@ export const getServerSideProps = ({ res, req }: { res: any; req: any }) => {
     res.end(`Fuck off`);
     return {};
   }
+
   return {
     redirect: {
       destination: "/login",

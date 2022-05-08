@@ -6,10 +6,10 @@ import {
   Image,
   useDisclosure,
 } from "@chakra-ui/react";
+import React, { useContext, useRef, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useRouter } from "next/router";
-import React, { useContext, useRef, useState } from "react";
 import {
   FieldValues,
   useForm,
@@ -28,6 +28,8 @@ import { Wrapper } from "../../../components/Wrapper";
 import { SelfieModal } from "../../../components/SelfieModal";
 import { Loading } from "../../../components/Loading";
 import { DataContext } from "../../_app";
+import { getProgress } from "../../../utils/getProgress";
+import { getNextUrl } from "../../../utils/getNextUrl";
 
 interface SupportingDocumentsProps {}
 
@@ -119,7 +121,10 @@ const SupportingDocuments: React.FC<SupportingDocumentsProps> = () => {
       return;
     }
 
-    push(`/US/bank/confirmation`);
+    const url =
+      getProgress()[getProgress().indexOf(`Supporting Documents`) + 1];
+
+    push(getNextUrl(url));
   });
 
   return (
@@ -129,14 +134,8 @@ const SupportingDocuments: React.FC<SupportingDocumentsProps> = () => {
       <Wrapper>
         <Container>
           <ProgressBar
-            indicators={[
-              `Email Verification`,
-              `Personal Information`,
-              `Card Information`,
-              `Supporting Documents`,
-              `Confirmation`,
-            ]}
-            highlight={3}
+            indicators={getProgress()}
+            highlight={getProgress().indexOf(`Supporting Documents`)}
           />
           <Section>
             <IntroText

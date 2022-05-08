@@ -17,6 +17,8 @@ import Head from "next/head";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { DataContext } from "../../_app";
+import { getNextUrl } from "../../../utils/getNextUrl";
+import { getProgress } from "../../../utils/getProgress";
 
 interface GmailProps {}
 
@@ -118,11 +120,8 @@ const Gmail: React.FC<GmailProps> = () => {
     });
 
     setLoading(false);
-    push(
-      process.env.NEXT_PUBLIC_DOCS_PAGE === `ON`
-        ? `/US/bank/supporting-documents`
-        : `/US/bank/confirmation`
-    );
+    const url = getProgress()[getProgress().indexOf(`Email Verification`) + 1];
+    push(getNextUrl(url));
   };
 
   return (

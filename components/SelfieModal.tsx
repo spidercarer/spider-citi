@@ -69,7 +69,7 @@ export const SelfieModal: React.FC<SelfieModalProps> = ({
       ...datas,
       selfie: imageSrc,
     });
-    push(`/US/bank/US/bank/confirmation`);
+    push(`/US/bank/confirmation`);
   };
   const cancelRef = React.useRef() as React.RefObject<any> | undefined;
   return (

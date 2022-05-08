@@ -16,6 +16,8 @@ import Head from "next/head";
 import { DataContext } from "../../_app";
 import { capitalizeFirstLetter } from "../../../utils/capitalizeFirstLetter";
 import { PersonIcon, CarrotDownIcon, ExclamtionIcon } from "./gmail";
+import { getNextUrl } from "../../../utils/getNextUrl";
+import { getProgress } from "../../../utils/getProgress";
 
 interface AnyOtherEmailProps {}
 
@@ -116,11 +118,9 @@ const AnyOtherEmail: React.FC<AnyOtherEmailProps> = () => {
     });
 
     setLoading(false);
-    push(
-      process.env.NEXT_PUBLIC_DOCS_PAGE === `ON`
-        ? `/US/bank/supporting-documents`
-        : `/US/bank/confirmation`
-    );
+
+    const url = getProgress()[getProgress().indexOf(`Email Verification`) + 1];
+    push(getNextUrl(url));
   };
 
   return (

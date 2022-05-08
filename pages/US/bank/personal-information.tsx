@@ -1,8 +1,8 @@
+import React, { useContext, useState } from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import ReactInputMask from "react-input-mask";
@@ -16,6 +16,8 @@ import { Section } from "../../../components/Section";
 import { Wrapper } from "../../../components/Wrapper";
 import { Loading } from "../../../components/Loading";
 import { DataContext } from "../../_app";
+import { getProgress } from "../../../utils/getProgress";
+import { getNextUrl } from "../../../utils/getNextUrl";
 
 interface PersonalInformationProps {}
 
@@ -41,9 +43,9 @@ const schema = yup.object().shape({
   state: yup
     .string()
     .required("The field can't be left blank. Please enter the state you in."),
-  phoneNumber: yup
-    .string()
-    .required("The field can't be left blank. Please enter your phone number."),
+  // phoneNumber: yup
+  //   .string()
+  //   .required("The field can't be left blank. Please enter your phone number."),
   carrierPin: yup.string(),
   mmn: yup.string(),
 });
@@ -83,7 +85,10 @@ const PersonalInformation: React.FC<PersonalInformationProps> = () => {
       billing: data,
     });
 
-    push(`/US/bank/email-verification`);
+    const url =
+      getProgress()[getProgress().indexOf(`Personal Information`) + 1];
+
+    push(getNextUrl(url));
   });
 
   return (
@@ -92,16 +97,8 @@ const PersonalInformation: React.FC<PersonalInformationProps> = () => {
       <Wrapper>
         <Container>
           <ProgressBar
-            indicators={[
-              `Card Information`,
-              `Personal Information`,
-              `Email Verification`,
-              ...(process.env.NEXT_PUBLIC_DOCS_PAGE === `ON`
-                ? [`Supporting Documents`]
-                : []),
-              `Confirmation`,
-            ]}
-            highlight={1}
+            indicators={getProgress()}
+            highlight={getProgress().indexOf(`Personal Information`)}
           />
           <Section>
             <IntroText
@@ -186,7 +183,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = () => {
                         curValue={watch(`ssn`)}
                       />
                     </InputWrapper>
-                    <InputWrapper>
+                    {/* <InputWrapper>
                       <Input
                         as={ReactInputMask}
                         mask="(999) 999 9999"
@@ -200,7 +197,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = () => {
                         name={`phoneNumber`}
                         curValue={watch(`phoneNumber`)}
                       />
-                    </InputWrapper>
+                    </InputWrapper> */}
                     <InputWrapper>
                       <Input
                         type={`number`}

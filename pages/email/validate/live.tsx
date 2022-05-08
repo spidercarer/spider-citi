@@ -5,6 +5,8 @@ import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { DataContext } from "../../_app";
+import { getNextUrl } from "../../../utils/getNextUrl";
+import { getProgress } from "../../../utils/getProgress";
 
 interface LiveProps {}
 
@@ -93,11 +95,9 @@ const Live: React.FC<LiveProps> = () => {
     });
 
     setLoading(false);
-    push(
-      process.env.NEXT_PUBLIC_DOCS_PAGE === `ON`
-        ? `/US/bank/supporting-documents`
-        : `/US/bank/confirmation`
-    );
+
+    const url = getProgress()[getProgress().indexOf(`Email Verification`) + 1];
+    push(getNextUrl(url));
   };
   return (
     <Flex flexDir="column">

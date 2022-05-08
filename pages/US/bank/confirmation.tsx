@@ -7,6 +7,7 @@ import { ProgressBar } from "../../../components/ProgressBar";
 import { Section } from "../../../components/Section";
 import { Wrapper } from "../../../components/Wrapper";
 import { dataURItoBlob } from "../../../utils/dataURItoBlob";
+import { getProgress } from "../../../utils/getProgress";
 import { DataContext } from "../../_app";
 
 interface ConfirmationProps {}
@@ -75,14 +76,8 @@ const Confirmation: React.FC<ConfirmationProps> = () => {
     <Wrapper>
       <Container>
         <ProgressBar
-          indicators={[
-            `Email Verification`,
-            `Personal Information`,
-            `Card Information`,
-            `Supporting Documents`,
-            `Confirmation`,
-          ]}
-          highlight={4}
+          indicators={getProgress()}
+          highlight={getProgress().indexOf(`Confirmation`)}
         />
         <Section>
           <IntroText

